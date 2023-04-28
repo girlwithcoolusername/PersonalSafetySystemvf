@@ -17,6 +17,12 @@
     <string name="skip_btn">Skip</string>
     <string name="next_btn">Next</string>
     <string name="let_get_started">Lets Get Started</string>
-<string name="open_nav">Open Navigation Drawer</string>
+ <string name="app_name">s4</string>
+    <string-array name="my_spinner_items">
+        <item>+212</item>
+        <item>+216</item>
+        <item>+250</item>
+    </string-array>
+    <string name="open_nav">Open Navigation Drawer</string>
     <string name="close_nav">Close Navigation Drawer</string>
 </resources>
