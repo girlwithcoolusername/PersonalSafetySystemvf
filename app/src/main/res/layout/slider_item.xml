@@ -70,7 +70,7 @@
             android:radius="6dp"
             android:padding="6dp"
             android:textColor="#FFFFFF"
-            android:backgroundTint="#522A79"
+            android:backgroundTint="@color/colorPurple"
             android:textSize="12sp" />
 
 

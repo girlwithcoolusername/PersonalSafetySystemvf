@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="#522A79"
+    android:background="@color/colorPurple"
     tools:context=".RegisterActivity">
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
                 android:layout_gravity="center"
                 android:textSize="60sp"
                 android:text="Register"
-                android:textColor="#522A79"
+                android:textColor="@color/colorPurple"
                 android:fontFamily="cursive"
                 android:gravity="center"
                 android:padding="10dp"
@@ -78,7 +78,7 @@
                 android:id="@+id/btnSignUpAcc"
                 android:textSize="18sp"
                 android:layout_marginTop="30dp"
-                android:backgroundTint="#522A79"
+                android:backgroundTint="@color/colorPurple"
                 app:cornerRadius = "20dp"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
                 android:layout_gravity="center"
                 android:padding="8dp"
                 android:layout_marginTop="10dp"
-                android:textColor="#522A79"
+                android:textColor="@color/colorPurple"
                 android:textSize="18sp"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
