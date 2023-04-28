@@ -1,4 +1,4 @@
-package com.example.s4;
+package com.example.personalsafetysystem;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
