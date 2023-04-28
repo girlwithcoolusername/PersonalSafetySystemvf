@@ -1,8 +1,14 @@
 package com.example.personalsafetysystem.UserDashboard;
 
+<<<<<<< HEAD
 import android.Manifest;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
+=======
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
+>>>>>>> a1a1fd5f9b1fe95d4a3cb19fe0bb7426bef456b5
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -59,6 +65,7 @@ public class UserDashboard extends AppCompatActivity implements OnMapReadyCallba
     private Button btnGetDirection ;
 
 
+<<<<<<< HEAD
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,6 +126,27 @@ public class UserDashboard extends AppCompatActivity implements OnMapReadyCallba
                     LatLng latLng = new LatLng(address.getLatitude(),address.getLongitude());
                     myMap.addMarker(new MarkerOptions().position(latLng).title(location));
                     myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
+=======
+    private CardView btnLogout;
+    private CardView btnHome;
+    private CardView btnNotifs;
+    private CardView btnProfile;
+    private CardView btnTracking;
+    private CardView btnListusers;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_contact_dashboard);
+        btnLogout = findViewById(R.id.card_logout);
+            btnLogout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FirebaseAuth.getInstance().signOut();
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+>>>>>>> a1a1fd5f9b1fe95d4a3cb19fe0bb7426bef456b5
                 }
 
                 return false;

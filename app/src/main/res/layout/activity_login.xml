@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="#522A79"
+    android:background="@color/colorPurple"
     tools:context=".LoginActivity">
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
                 android:layout_gravity="center"
                 android:textSize="32sp"
                 android:text="Personal Safety System"
-                android:textColor="#522A79"
+                android:textColor="@color/colorPurple"
                 android:fontFamily="cursive"
                 android:gravity="center"
                 android:padding="10dp"
@@ -66,7 +66,7 @@
                 android:id="@+id/btnSubmit_login"
                 android:textSize="18sp"
                 android:layout_marginTop="30dp"
-                android:backgroundTint="#522A79"
+                android:backgroundTint="@color/colorPurple"
                 app:cornerRadius = "20dp"/>
 
 

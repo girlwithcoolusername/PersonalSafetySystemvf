@@ -9,6 +9,8 @@
 
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFFFF</color>
+    <color name="colorPurple">#522A79</color>
+
 
     <color name="lightWhite">#f2f5f8</color>
     <color name="DarkGray">#272727</color>
@@ -37,6 +39,6 @@
     <color name="background2">#fcfcfc</color>
     <color name="white">#FFFFFF</color>
     <color name="signupColor">#066e8a</color>
-
+ <color name="lavender">#8692f7</color>
 <color name="black_overlay">#66000000</color>
 </resources>
