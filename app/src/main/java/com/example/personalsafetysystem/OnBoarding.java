@@ -39,11 +39,11 @@ public class OnBoarding extends AppCompatActivity {
         dotsLayout = findViewById(R.id.dotsLayout);
 
         List<SlideModel> slideModelList = new ArrayList<>();
-        slideModelList.add(new SlideModel(R.drawable.baseline_emergency_share_24,R.drawable.make_a_call, "Emergency notice", "Alert your acquaintances in case of danger, they will be able to see everything that happens through your camera. "));
+        slideModelList.add(new SlideModel(R.drawable.emer,R.drawable.make_a_call, "Emergency notice", "Alert your acquaintances in case of danger, they will be able to see everything that happens through your camera. "));
         slideModelList.add(new SlideModel(R.drawable.warning,R.drawable.search_place, "Incident areas", "Look on the map at the areas where incidents have been recorded by other users of the community."));
         slideModelList.add(new SlideModel(R.drawable.share,R.drawable.add_missing_place, "Share experience", "Share with the users of the app the activity that you have carried out at any time and provide safe spaces in the community."));
 
-        onboardingAdapter = new SliderAdapter(slideModelList);
+        onboardingAdapter = new SliderAdapter(slideModelList,getApplicationContext());
         viewPager.setAdapter(onboardingAdapter);
 
         addDots();

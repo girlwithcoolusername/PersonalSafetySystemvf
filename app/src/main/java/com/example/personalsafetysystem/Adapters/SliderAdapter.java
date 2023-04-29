@@ -1,5 +1,6 @@
 package com.example.personalsafetysystem.Adapters;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,7 +19,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.personalsafetysystem.Model.SlideModel;
 import com.example.personalsafetysystem.OnBoarding;
 import com.example.personalsafetysystem.R;
+import com.example.personalsafetysystem.RegisterActivity;
+import com.example.personalsafetysystem.UserDashboard.ContactDashboard;
 import com.example.personalsafetysystem.UserDashboard.UserDashboard;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -25,8 +37,10 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.Onboarding
 
     private List<SlideModel> slideModelList;
 
-    public SliderAdapter(List<SlideModel> slideModelList) {
+    private Context context;
+    public SliderAdapter(List<SlideModel> slideModelList, Context context) {
         this.slideModelList = slideModelList;
+        this.context = context;
     }
 
     @NonNull
@@ -69,15 +83,43 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.Onboarding
             descriptionTextView = itemView.findViewById(R.id.slider_desc);
 
             skipButton = itemView.findViewById(R.id.slider_skip);
+
             skipButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // skip onboarding and go to main activity
-                    Intent intent = new Intent(v.getContext(), UserDashboard.class);
-                    v.getContext().startActivity(intent);
-                    ((OnBoarding)v.getContext()).finish();
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    String userId =  user.getUid();
+                    DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+
+                    usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                String role = dataSnapshot.child("role").getValue(String.class);
+                                if (role != null && role.equals("Principal user")) {
+                                    Intent intent = new Intent(context, UserDashboard.class);
+                                    context.startActivity(intent);
+                                } else {
+                                    Intent intent = new Intent(context, ContactDashboard.class);
+                                    context.startActivity(intent);
+                                }
+                            } else {
+                                // L'utilisateur n'existe pas dans la base de données
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // Erreur lors de la récupération des données de l'utilisateur
+                        }
+                    });
                 }
             });
+
+
+
+
+
 
         }
 

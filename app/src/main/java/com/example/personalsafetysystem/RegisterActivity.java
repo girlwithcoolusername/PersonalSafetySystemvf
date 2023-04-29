@@ -177,11 +177,10 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onSuccess(AuthResult authResult) {
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                         String userId = user.getUid();
-                        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("Users");
+                        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
 
 
                         Map<String, Object> map = new HashMap<>();
-                        map.put("UID", userId);
                         map.put("name", txtName);
                         map.put("role", selectedRole);
                         map.put("phone", textPhone);
