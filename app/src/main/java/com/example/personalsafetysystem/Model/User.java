@@ -5,12 +5,26 @@ import java.util.Map;
 public class User {
     private String uid;
     private int heartbeats;
+    private String email;
     private Map<String, String> list_contacts;
     private String name;
     private int nbrOfSteps;
     private String phone;
     private String role;
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    private String password;
+
+    // Empty constructor required by Firebase
+    public User() {
+    }
     // Constructeur
     public User(String name, String role, String phone, Map<String, String> list_contacts, int heartbeats, int nbrOfSteps) {
         this.heartbeats = heartbeats;
@@ -44,6 +58,13 @@ public class User {
 
     public void setList_contacts(Map<String, String> list_contacts) {
         this.list_contacts = list_contacts;
+    }
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getName() {

@@ -21,7 +21,7 @@
             android:src="@drawable/img4" />
 
         <TextView
-            android:id="@+id/textName"
+            android:id="@+id/textName1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:inputType="text"
-            android:id="@+id/textName1"
+            android:id="@+id/textName"
             android:hint="Alicia Montes"
             android:textSize="18dp"
             android:layout_marginLeft="25dp"
@@ -143,11 +143,10 @@
             android:textSize="18dp"
             android:layout_marginLeft="5dp"
             android:textColor="@color/colorBlack"/>
-        <EditText
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:inputType="text"
             android:id="@+id/textRole"
             android:hint="Princpal user"
             android:textSize="18dp"
@@ -196,6 +195,7 @@
             android:textColor="@color/lightGrey"/>
 
 
+
     </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -214,6 +214,7 @@
             android:layout_width="180dp"
             android:layout_height="50dp"
             android:background="@drawable/custom_edittext"
+            android:id="@+id/btnEdit"
             android:text="Edit profile"
             android:textSize="18dp"
             android:textColor="@color/colorPurple"
@@ -228,6 +229,7 @@
             android:layout_height="50dp"
             android:background="@drawable/custom_edittext"
             android:text="Change password"
+            android:id="@+id/btnEditPwd"
             android:textSize="18dp"
             android:textColor="@color/colorPurple"
             android:gravity="center"
