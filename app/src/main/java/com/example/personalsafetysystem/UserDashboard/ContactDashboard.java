@@ -51,6 +51,13 @@ public class ContactDashboard extends AppCompatActivity {
                 finish();
             }
         });
+        btnProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setContentView(R.layout.activity_profile_contact);
+
+            }
+        });
 
     }
 }
