@@ -61,9 +61,11 @@
             android:textSize="18dp"
             android:layout_marginLeft="5dp"
             android:textColor="@color/colorBlack"/>
-        <TextView
+        <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@null"
+            android:inputType="text"
             android:id="@+id/textName1"
             android:text="Alicia Montes"
             android:textSize="18dp"
@@ -100,9 +102,11 @@
             android:drawablePadding="10dp"
             android:drawableLeft="@drawable/ic_action_email"
             android:textColor="@color/colorBlack"/>
-        <TextView
+        <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@null"
+            android:inputType="text"
             android:id="@+id/textEmail"
             android:text="aliciamontes@gmail.com"
             android:textSize="18dp"
@@ -139,11 +143,13 @@
             android:textSize="18dp"
             android:layout_marginLeft="5dp"
             android:textColor="@color/colorBlack"/>
-        <TextView
+        <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@null"
+            android:inputType="text"
             android:id="@+id/textRole"
-            android:text="Principal user"
+            android:text="Princpal user"
             android:textSize="18dp"
             android:layout_marginLeft="25dp"
             android:textColor="@color/lightGrey"/>
@@ -166,21 +172,23 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_profile"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Phone"
             android:textStyle="bold"
             android:textSize="18dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="-5dp"
+            android:drawableTint="@color/colorPurple"
+            android:drawablePadding="10dp"
+            android:drawableLeft="@drawable/ic_phone"
             android:textColor="@color/colorBlack"/>
-        <TextView
+        <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@null"
+            android:inputType="text"
             android:id="@+id/textPhone"
             android:text="+212 641 97 43 24"
             android:textSize="18dp"
@@ -209,7 +217,6 @@
             android:text="Edit profile"
             android:textSize="18dp"
             android:textColor="@color/colorPurple"
-            android:textAlignement="center"
             android:gravity="center"
             android:drawableLeft="@drawable/ic_edit"
             android:layout_marginTop="15dp"
