@@ -30,6 +30,9 @@
             android:name=".UserDashboard.ContactDashboard"
             android:exported="false" />
         <activity
+            android:name=".UserDashboard.ProfileContact"
+            android:exported="false" />
+        <activity
             android:name=".UserDashboard.UserDashboard"
             android:exported="false" />
         <activity

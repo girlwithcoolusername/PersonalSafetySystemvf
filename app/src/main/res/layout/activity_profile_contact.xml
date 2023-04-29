@@ -67,7 +67,7 @@
             android:background="@null"
             android:inputType="text"
             android:id="@+id/textName1"
-            android:text="Alicia Montes"
+            android:hint="Alicia Montes"
             android:textSize="18dp"
             android:layout_marginLeft="25dp"
             android:textColor="@color/lightGrey"/>
@@ -108,9 +108,9 @@
             android:background="@null"
             android:inputType="text"
             android:id="@+id/textEmail"
-            android:text="aliciamontes@gmail.com"
+            android:hint="aliciamontes@gmail.com"
             android:textSize="18dp"
-            android:layout_marginLeft="25dp"
+            android:layout_marginLeft="22dp"
             android:textColor="@color/lightGrey"/>
 
 
@@ -149,9 +149,9 @@
             android:background="@null"
             android:inputType="text"
             android:id="@+id/textRole"
-            android:text="Princpal user"
+            android:hint="Princpal user"
             android:textSize="18dp"
-            android:layout_marginLeft="25dp"
+            android:layout_marginLeft="30dp"
             android:textColor="@color/lightGrey"/>
 
 
@@ -179,7 +179,7 @@
             android:text="Phone"
             android:textStyle="bold"
             android:textSize="18dp"
-            android:layout_marginLeft="-5dp"
+            android:layout_marginLeft="0dp"
             android:drawableTint="@color/colorPurple"
             android:drawablePadding="10dp"
             android:drawableLeft="@drawable/ic_phone"
@@ -190,9 +190,9 @@
             android:background="@null"
             android:inputType="text"
             android:id="@+id/textPhone"
-            android:text="+212 641 97 43 24"
+            android:hint="+212 641 97 43 24"
             android:textSize="18dp"
-            android:layout_marginLeft="25dp"
+            android:layout_marginLeft="22dp"
             android:textColor="@color/lightGrey"/>
 
 

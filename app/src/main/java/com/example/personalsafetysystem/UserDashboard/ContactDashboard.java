@@ -3,9 +3,11 @@ package com.example.personalsafetysystem.UserDashboard;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.example.personalsafetysystem.LoginActivity;
 import com.example.personalsafetysystem.R;
@@ -19,6 +21,7 @@ public class ContactDashboard extends AppCompatActivity {
     private CardView btnProfile;
     private CardView btnTracking;
     private CardView btnListusers;
+    private ImageView imgLogout,btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +34,7 @@ public class ContactDashboard extends AppCompatActivity {
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
-                finish();
+                signOutMethod();
             }
         });
         btnProfile.setOnClickListener(new View.OnClickListener() {
@@ -52,12 +52,23 @@ public class ContactDashboard extends AppCompatActivity {
             }
         });
         btnProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setContentView(R.layout.activity_profile_contact);
 
+            @Override
+            public void onClick(View view)
+            {
+
+                Intent intent = new Intent(getApplicationContext(), ProfileContact.class);
+                startActivity(intent);
+                finish();
             }
         });
 
+    }
+    private void signOutMethod()
+    {
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
