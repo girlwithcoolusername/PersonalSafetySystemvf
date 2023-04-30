@@ -116,7 +116,6 @@
             android:textColorHint="@color/black" />
 
         <Button
-            android:id="@+id/button"
             android:layout_width="300dp"
             android:layout_marginTop="90dp"
             android:background="@drawable/oval"
