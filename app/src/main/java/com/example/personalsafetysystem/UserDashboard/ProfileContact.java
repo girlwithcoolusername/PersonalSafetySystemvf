@@ -18,8 +18,6 @@ import com.example.personalsafetysystem.Model.User;
 import com.example.personalsafetysystem.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -111,9 +109,8 @@ public class ProfileContact extends AppCompatActivity {
 
                         if (newPassword.equals(confirmPassword)) {
                             // update the user's password
-                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                            AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), newPassword);
-                                user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            user.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
