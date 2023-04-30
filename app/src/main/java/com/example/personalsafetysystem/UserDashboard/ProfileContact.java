@@ -1,9 +1,14 @@
 package com.example.personalsafetysystem.UserDashboard;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -22,9 +27,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.orhanobut.dialogplus.DialogPlus;
-import com.orhanobut.dialogplus.DialogPlusBuilder;
-import com.orhanobut.dialogplus.ViewHolder;
 
 public class ProfileContact extends AppCompatActivity {
 
@@ -86,19 +88,20 @@ public class ProfileContact extends AppCompatActivity {
         btnEditPwd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogPlusBuilder dialogPlusBuilder = DialogPlus.newDialog(ProfileContact.this)
-                        .setContentHolder(new ViewHolder(R.layout.update_popup_pwd));
-                dialogPlusBuilder.setExpanded(true, 650);
-                final DialogPlus dialogPlus = dialogPlusBuilder.create();
-
-                View dialogView = dialogPlus.getHolderView(); // get the view of the dialog
+                AlertDialog.Builder builder = new AlertDialog.Builder(ProfileContact.this);
+                View dialogView = LayoutInflater.from(ProfileContact.this).inflate(R.layout.update_popup_pwd, null);
+                builder.setView(dialogView);
 
                 EditText textPassword = dialogView.findViewById(R.id.txtPassword);
                 EditText textConfirmPassword = dialogView.findViewById(R.id.txtConfimrPassword);
 
                 Button btnUpdate = dialogView.findViewById(R.id.btnUpdate);
 
-                dialogPlus.show();
+                final AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+                // Increase dialog size
+                Window window = alertDialog.getWindow();
+                window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
                 btnUpdate.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -108,16 +111,20 @@ public class ProfileContact extends AppCompatActivity {
 
                         if (newPassword.equals(confirmPassword)) {
                             // update the user's password
-                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                            user.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), newPassword);
+                                user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
                                         Toast.makeText(ProfileContact.this, "Password updated successfully.", Toast.LENGTH_SHORT).show();
-                                        dialogPlus.dismiss();
+                                        alertDialog.dismiss();
                                     } else {
                                         Toast.makeText(ProfileContact.this, "Failed to update password.", Toast.LENGTH_SHORT).show();
+                                        Exception e = task.getException();
+                                        Log.e("Update Password", "Error: " + e.getMessage());
                                     }
+
                                 }
                             });
                         } else {
@@ -127,6 +134,7 @@ public class ProfileContact extends AppCompatActivity {
                 });
             }
         });
+
 
 
 
