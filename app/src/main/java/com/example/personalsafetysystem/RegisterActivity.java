@@ -1,10 +1,17 @@
 package com.example.personalsafetysystem;
 
-import android.content.Context;
+import android.net.Uri;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -12,26 +19,17 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
-import com.example.personalsafetysystem.LoginActivity;
-import com.example.personalsafetysystem.MainActivity;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,10 +41,13 @@ public class RegisterActivity extends AppCompatActivity {
 
     EditText textName, textEmail, textPassword, edtConfirmPassword,textPhone;
     Spinner spinner;
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private Uri imageUri;
+
     TextView login;
     String txtFullName, txtEmail, txtName,txtPhone, txtPassword, txtConfirmPassword, selectedRole;
 
-    Button btnSignUpAcc;
+    Button btnSignUpAcc,btnSelectImage;
 
     String phonePattern = "^\\+(?:[0-9] ?){6,14}[0-9]$";
 
@@ -64,10 +65,8 @@ public class RegisterActivity extends AppCompatActivity {
         textEmail = findViewById(R.id.textEmail);
         textPhone = findViewById(R.id.textPhone);
         textPassword = findViewById(R.id.textPassword);
-        edtConfirmPassword = findViewById(R.id.edtConfirmPassword);
         spinner = findViewById(R.id.textRole);
-
-
+        btnSelectImage = findViewById(R.id.btnChooseImage);
         btnSignUpAcc = findViewById(R.id.btnSignUpAcc);
 
 
@@ -121,7 +120,6 @@ public class RegisterActivity extends AppCompatActivity {
                 txtPhone = textPhone.getText().toString().trim();
                 txtEmail = textEmail.getText().toString().trim();
                 txtPassword = textPassword.getText().toString().trim();
-                txtConfirmPassword = edtConfirmPassword.getText().toString().trim();
                 selectedRole = spinner.getSelectedItem().toString();
 
                 if (!TextUtils.isEmpty(txtName)) {
@@ -130,15 +128,8 @@ public class RegisterActivity extends AppCompatActivity {
                             if (!TextUtils.isEmpty(txtEmail)) {
                                 if (txtEmail.matches(emailPattern)) {
                                     if (!TextUtils.isEmpty(txtPassword)) {
-                                        if (!TextUtils.isEmpty(txtConfirmPassword)) {
-                                            if (txtConfirmPassword.equals(txtPassword)) {
                                                 SignUpUser(txtName, txtPhone, txtEmail, txtPassword, selectedRole);
-                                            } else {
-                                                edtConfirmPassword.setError("Confirm Password and Password should be same.");
-                                            }
-                                        } else {
-                                            edtConfirmPassword.setError("Confirm Password Field can't be empty");
-                                        }
+
                                     } else {
                                         textPassword.setError("Password Field can't be empty");
                                     }
@@ -160,63 +151,90 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 else {
                     textName.setError("Name Field can't be empty");
-
                 }
+    }
+
+        });
+        btnSelectImage = findViewById(R.id.btnChooseImage);
+        btnSelectImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                startActivityForResult(intent, PICK_IMAGE_REQUEST);
             }
         });
 
     }
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-    private void SignUpUser(String txtName, String textPhone,String txtEmail, String txtPassword, String selectedRole) {
-        btnSignUpAcc.setVisibility(View.INVISIBLE);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
+            imageUri = data.getData();
+            ImageView imageView =findViewById(R.id.imageView);
+            imageView.setImageURI(imageUri);
+        }
+    }
 
-
+    private void SignUpUser(String txtName, String txtPhone, String txtEmail, String txtPassword, String selectedRole) {
+        // Create a new Firebase user with the email and password.
         mAuth.createUserWithEmailAndPassword(txtEmail, txtPassword)
-                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        // If the user is created successfully, upload the image to storage, then add the user to the database.
+                        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                        if (firebaseUser != null) {
+                            String userId = firebaseUser.getUid();
+                            StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("images/" + mAuth.getCurrentUser().getUid() + "/" + System.currentTimeMillis() + ".jpg");
+                            storageRef.putFile(imageUri)
+                                    .addOnSuccessListener(taskSnapshot -> {
+                                        Task<Uri> downloadUrlTask = taskSnapshot.getStorage().getDownloadUrl();
+                                        downloadUrlTask.addOnSuccessListener(uri -> {
+                                            String profileImageUrl = uri.toString();
+                                            addNewUserToDatabase(userId,txtName, txtPhone, selectedRole, profileImageUrl);
+                                        });
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Toast.makeText(RegisterActivity.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
+                                    });
+                        }
+                    } else {
+                        Toast.makeText(RegisterActivity.this, "Failed to create user", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void addNewUserToDatabase(String userId,String txtName, String txtPhone, String selectedRole, String profileImageUrl)
+    {
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+
+        // Generate a new unique key for the user
+        String userKey = usersRef.push().getKey();
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", txtName);
+        map.put("role", selectedRole);
+        map.put("phone", txtPhone);
+        map.put("img_url", profileImageUrl);
+        map.put("contacts_list",0);
+        map.put("heartbeats",75);
+        map.put("nbrOfSteps",10000);
+        usersRef.setValue(map)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(AuthResult authResult) {
-                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        String userId = user.getUid();
-                        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
-
-
-                        Map<String, Object> map = new HashMap<>();
-                        map.put("name", txtName);
-                        map.put("role", selectedRole);
-                        map.put("phone", textPhone);
-                        map.put("contacts_list", 0);
-                        map.put("heartbeats", 75);
-                        map.put("nbrOfSteps", 1000);
-
-                        userRef.setValue(map)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Toast.makeText(RegisterActivity.this, "Sign Up Successful !", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(RegisterActivity.this, "Error " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                        btnSignUpAcc.setVisibility(View.VISIBLE);
-                                    }
-                                });
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(RegisterActivity.this,"Sign Up Successful !",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(RegisterActivity.this, "Error " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        btnSignUpAcc.setVisibility(View.VISIBLE);
+                        Toast.makeText(RegisterActivity.this,"Error while inserting.",Toast.LENGTH_SHORT).show();
                     }
                 });
     }
+    }
 
 
-
-
-}

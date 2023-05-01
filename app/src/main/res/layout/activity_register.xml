@@ -35,6 +35,27 @@
                 android:layout_marginTop="-10dp"
 
                 />
+            <Button
+                android:id="@+id/btnChooseImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Choose"
+                android:layout_marginLeft="120dp"
+                android:backgroundTint="@color/colorPurple"
+                android:drawableLeft="@drawable/ic_image"
+                android:textAllCaps="false"
+                app:cornerRadius = "20dp"
+                android:textSize="18sp" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imageView"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="-75dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img1"
+                android:visibility="visible"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -95,7 +116,7 @@
                 android:layout_height="50dp"
                 android:id="@+id/textPassword"
                 android:background="@drawable/custom_edittext"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:padding="8dp"
                 android:hint="Password"
                 android:inputType="textPassword"
@@ -103,7 +124,7 @@
                 android:drawableLeft="@drawable/ic_password"
                 android:drawablePadding="8dp"
                 android:textColor="@color/black"/>
-            <EditText
+            <!--            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:id="@+id/edtConfirmPassword"
@@ -115,7 +136,9 @@
                 android:textColorHint="#8c8c8c"
                 android:drawableLeft="@drawable/ic_password"
                 android:drawablePadding="8dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"/>-->
+
+
 
             <Button
                 android:layout_width="match_parent"
@@ -133,7 +156,8 @@
                 android:text="Already an user? Login"
                 android:layout_gravity="center"
                 android:padding="8dp"
-                android:layout_marginTop="-2dp"
+                android:layout_marginTop="-5dp"
+                android:layout_marginBottom="4dp"
                 android:textColor="@color/colorPurple"
                 android:textSize="18sp"/>
         </LinearLayout>

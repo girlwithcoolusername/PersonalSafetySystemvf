@@ -3,9 +3,9 @@ package com.example.personalsafetysystem.Model;
 import java.util.Map;
 
 public class User {
-    private String uid;
+
+    private String img_url;
     private int heartbeats;
-    private String email;
     private Map<String, String> list_contacts;
     private String name;
     private int nbrOfSteps;
@@ -25,24 +25,21 @@ public class User {
     // Empty constructor required by Firebase
     public User() {
     }
-    // Constructeur
-    public User(String name, String role, String phone, Map<String, String> list_contacts, int heartbeats, int nbrOfSteps) {
+
+    public User( String img_url, int heartbeats, Map<String, String> list_contacts, String name, int nbrOfSteps, String phone, String role, String password) {
+        this.img_url = img_url;
         this.heartbeats = heartbeats;
         this.list_contacts = list_contacts;
         this.name = name;
         this.nbrOfSteps = nbrOfSteps;
         this.phone = phone;
         this.role = role;
+        this.password = password;
     }
+// Constructeur
+
 
     // Accesseurs et mutateurs
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
 
     public int getHeartbeats() {
         return heartbeats;
@@ -59,12 +56,14 @@ public class User {
     public void setList_contacts(Map<String, String> list_contacts) {
         this.list_contacts = list_contacts;
     }
-    public String getEmail() {
-        return email;
+
+
+    public String getImg_url() {
+        return img_url;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setImg_url(String img_url) {
+        this.img_url = img_url;
     }
 
     public String getName() {
