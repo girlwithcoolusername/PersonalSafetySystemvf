@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".UserDashboard.Notifications">
+
+    <TextView
+        android:id="@+id/notification_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="150dp"
+        android:layout_marginBottom="10dp"
+        android:text="Title"
+        android:textSize="20dp"
+        />
+
+    <TextView
+        android:id="@+id/notification_textview2"
+        android:layout_below="@+id/notification_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="120dp"
+        android:text="TextView"
+        android:textSize="25dp"/>
+</LinearLayout>

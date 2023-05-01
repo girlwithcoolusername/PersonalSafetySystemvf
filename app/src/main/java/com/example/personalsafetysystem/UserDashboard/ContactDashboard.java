@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -32,6 +33,7 @@ public class ContactDashboard extends AppCompatActivity {
         btnProfile = findViewById(R.id.card_profil);
         btnTracking = findViewById(R.id.card_tracking);
         btnListusers = findViewById(R.id.card_contacts);
+        btnNotifs = findViewById(R.id.card_notif);
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +73,17 @@ public class ContactDashboard extends AppCompatActivity {
             {
 
                 Intent intent = new Intent(getApplicationContext(), ListUsersForEmergContact.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        btnNotifs.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view)
+            {
+
+                Intent intent = new Intent(getApplicationContext(), Notifications.class);
                 startActivity(intent);
                 finish();
             }

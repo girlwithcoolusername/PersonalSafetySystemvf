@@ -18,6 +18,9 @@
         android:theme="@style/Theme.PersonalSafetySystem"
         tools:targetApi="31">
         <activity
+            android:name=".UserDashboard.Notifications"
+            android:exported="false" />
+        <activity
             android:name=".ListUsersForEmergContact"
             android:exported="false" />
         <activity
@@ -61,6 +64,11 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/MAPS_API_KEY" />
+        <service android:name=".MyFirebaseMessagingReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"></action>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

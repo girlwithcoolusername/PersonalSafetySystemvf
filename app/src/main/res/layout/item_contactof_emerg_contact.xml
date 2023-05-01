@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="6px"
-    app:cardBackgroundColor="#F5F5F5"
+    android:background="@color/lightWhite"
     app:cardUseCompatPadding="true">
     <RelativeLayout
         android:id="@+id/item"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="wrap_content"
         android:padding="15dp"
         >
         <de.hdodenhof.circleimageview.CircleImageView
@@ -54,14 +54,15 @@
             android:textColor="#000"
             android:textSize="19sp" />
 
-<!--        <View
+        <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@id/emailtext"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/img1"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginRight="10dp"
-            android:background="@color/colorPurple" />-->
+            android:background="@color/colorPurple" />
 
 
     </RelativeLayout>
@@ -69,4 +70,4 @@
 
 
 
-</androidx.cardview.widget.CardView>
+</RelativeLayout>

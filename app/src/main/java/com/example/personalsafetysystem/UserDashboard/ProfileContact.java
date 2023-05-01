@@ -43,8 +43,8 @@ public class ProfileContact extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     Uri imageUri;
     private CircleImageView img;
-    private Button btnBack;
-    private TextView btnLogout,btnEdit,btnEditPwd,textNameTitle,textRole;
+    private Button btnBack,btnLogout;
+    private TextView btnEdit,btnEditPwd,textNameTitle,textRole;
     private EditText textName,textPhone,textEmail1,textPassword,textConfimrPassword;
     private DatabaseReference userRef;
     private User user;
