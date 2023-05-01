@@ -1,17 +1,24 @@
 package com.example.personalsafetysystem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Intent;
+import android.os.Bundle;
+
 import com.example.personalsafetysystem.Adapters.ContactAdapter;
 import com.example.personalsafetysystem.Model.User;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class ListUsersForEmergContact extends AppCompatActivity {
 
@@ -31,38 +38,29 @@ public class ListUsersForEmergContact extends AppCompatActivity {
 
             recyclerView = findViewById(R.id.rv);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            String uid = user.getUid();
-
-            Query query = FirebaseDatabase.getInstance().getReference().child("Users");
-                 /*   .orderByChild("role")
-                    .equalTo("Principal user")
-                    .orderByChild("contacts_list/" + uid)
-                    .equalTo("");*/
-
-
+            Query query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("role").equalTo("Principal user");
             FirebaseRecyclerOptions<User> options =
                     new FirebaseRecyclerOptions.Builder<User>()
                             .setQuery(query, User.class)
                             .build();
-
             contactAdapter = new ContactAdapter(options);
             recyclerView.setAdapter(contactAdapter);
-
-
         }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        contactAdapter.startListening();
+        if (contactAdapter != null) {
+            contactAdapter.startListening();
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        contactAdapter.stopListening();
+        if (contactAdapter != null) {
+            contactAdapter.stopListening();
+        }
     }
 }
