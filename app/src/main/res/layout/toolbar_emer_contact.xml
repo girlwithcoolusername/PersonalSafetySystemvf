@@ -28,15 +28,12 @@
             android:textStyle="bold"
             android:textColor="@android:color/black"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Logout"
+        <Button
+            android:background="@drawable/ic_logout"
             android:id="@+id/btnLogout"
-            android:textColor="@color/colorPurple"
-            android:layout_alignParentRight="true"
-            android:textStyle="normal"
-            android:textSize="15dp"/>
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"/>
     </LinearLayout>
 
     <View
