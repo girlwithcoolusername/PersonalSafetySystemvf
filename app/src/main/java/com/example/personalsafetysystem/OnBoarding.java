@@ -1,5 +1,6 @@
 package com.example.personalsafetysystem;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
@@ -32,11 +33,15 @@ public class OnBoarding extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_on_boarding);
-
         viewPager = findViewById(R.id.sliderViewPager);
         nextButton = findViewById(R.id.next);
         finishButton = findViewById(R.id.finish);
         dotsLayout = findViewById(R.id.dotsLayout);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
 
         List<SlideModel> slideModelList = new ArrayList<>();
         slideModelList.add(new SlideModel(R.drawable.emer,R.drawable.make_a_call, "Emergency notice", "Alert your acquaintances in case of danger, they will be able to see everything that happens through your camera. "));

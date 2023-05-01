@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.personalsafetysystem.ListUsersForEmergContact;
 import com.example.personalsafetysystem.LoginActivity;
 import com.example.personalsafetysystem.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +31,7 @@ public class ContactDashboard extends AppCompatActivity {
         btnLogout = findViewById(R.id.card_logout);
         btnProfile = findViewById(R.id.card_profil);
         btnTracking = findViewById(R.id.card_tracking);
+        btnListusers = findViewById(R.id.card_contacts);
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +60,17 @@ public class ContactDashboard extends AppCompatActivity {
             {
 
                 Intent intent = new Intent(getApplicationContext(), ProfileContact.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        btnListusers.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view)
+            {
+
+                Intent intent = new Intent(getApplicationContext(), ListUsersForEmergContact.class);
                 startActivity(intent);
                 finish();
             }
