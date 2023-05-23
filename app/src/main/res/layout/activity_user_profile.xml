@@ -23,7 +23,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/profile_image"
-            android:fontFamily="@font/bungee"
+            android:fontFamily="@font/bungee_regular"
             android:includeFontPadding="false"
             android:text="Taimoor Sikander"
             android:textColor="#000"
@@ -77,9 +77,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
                     android:layout_marginTop="80dp"
-                   android:gravity="center"
+                    android:gravity="center"
 
-                    android:fontFamily="@font/bungee"
+                    android:fontFamily="@font/bungee_regular"
                     android:includeFontPadding="false"
                     android:text="123"
                     android:textColor="@color/black"
@@ -117,7 +117,7 @@
                     android:layout_marginTop="80dp"
                     android:gravity="center"
 
-                    android:fontFamily="@font/bungee"
+                    android:fontFamily="@font/bungee_regular"
                     android:includeFontPadding="false"
                     android:text="123"
                     android:textColor="@color/black"
@@ -133,9 +133,9 @@
             android:layout_gravity="center_vertical"
             android:orientation="vertical"
             android:layout_marginTop="160dp"
-           android:layout_marginLeft="-300dp"
+            android:layout_marginLeft="-300dp"
             android:layout_marginRight="40dp"
-           >
+            >
             <com.google.android.material.textfield.TextInputLayout
                 android:hint="Email"
                 android:id="@+id/full_name_profile"
@@ -150,7 +150,7 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/edit"
+                    android:src="@drawable/ic_edit"
                     android:layout_marginTop="-40dp"
                     android:layout_marginLeft="230dp"
                     />
@@ -170,7 +170,7 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/edit"
+                    android:src="@drawable/ic_edit"
                     android:layout_marginTop="-40dp"
                     android:layout_marginLeft="230dp"
                     />
@@ -188,14 +188,14 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/edit"
+                    android:src="@drawable/ic_edit"
                     android:layout_marginTop="-40dp"
                     android:layout_marginLeft="230dp"
                     />
             </com.google.android.material.textfield.TextInputLayout>
             <Button
 
-                android:fontFamily="@font/bungee"
+                android:fontFamily="@font/bungee_regular"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/oval"
@@ -204,5 +204,5 @@
 
 
         </LinearLayout>
-</LinearLayout>
     </LinearLayout>
+</LinearLayout>
