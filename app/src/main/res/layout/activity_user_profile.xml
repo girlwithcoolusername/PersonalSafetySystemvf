@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:background="@color/lavender"
+        android:background="@color/purple_500"
         android:padding="20dp">
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
@@ -42,17 +41,14 @@
 
 
     </RelativeLayout>
-
-
-
     <LinearLayout
         android:layout_height="wrap_content"
         android:layout_marginTop="-100dp"
         android:layout_width="match_parent"
+        android:layout_marginLeft="-25dp"
         android:padding="20dp">
         <com.google.android.material.card.MaterialCardView
             android:layout_height="130dp"
-
             android:layout_width="130dp"
             android:layout_marginTop="-30dp"
             android:layout_marginLeft="50dp"
@@ -62,7 +58,6 @@
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
                 android:padding="5dp"
-
                 android:layout_marginTop="2dp"
                 android:background="@color/lavender">
                 <ImageView
@@ -119,7 +114,7 @@
 
                     android:fontFamily="@font/bungee_regular"
                     android:includeFontPadding="false"
-                    android:text="123"
+                    android:text="Number of steps"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -201,7 +196,6 @@
                 android:background="@drawable/oval"
                 android:layout_width="match_parent"
                 android:text="UPDATE" />
-
 
         </LinearLayout>
     </LinearLayout>

@@ -47,6 +47,8 @@
         <activity
             android:name=".UserDashboard.TrackingActivity"
             android:exported="false" />
+        <activity android:name=".UserDashboard.UserProfile"
+            android:exported="false"/>
         <activity
             android:name=".MainActivity"
             android:exported="true" />
