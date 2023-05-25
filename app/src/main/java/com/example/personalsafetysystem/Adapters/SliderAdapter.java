@@ -85,22 +85,23 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.Onboarding
                     DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
 
                     usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        private Intent userDashboardIntent;
+                        private Intent contactDashboardIntent;
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
                                 String role = dataSnapshot.child("role").getValue(String.class);
-                                if (role != null && role.equals("Principal user")) {
-                                    Intent intent = new Intent(context, UserDashboard.class);
-                                    context.startActivity(intent);
-                                } else {
-                                    Intent intent = new Intent(context, ContactDashboard.class);
+                                userDashboardIntent = new Intent(context, UserDashboard.class);
+                                contactDashboardIntent = new Intent(context.getApplicationContext(), ContactDashboard.class);
+
+                                if (role != null) {
+                                    Intent intent = role.equals("Principal user") ? userDashboardIntent : contactDashboardIntent;
                                     context.startActivity(intent);
                                 }
                             } else {
                                 // L'utilisateur n'existe pas dans la base de données
                             }
                         }
-
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
                             // Erreur lors de la récupération des données de l'utilisateur

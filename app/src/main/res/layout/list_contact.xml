@@ -4,15 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!-- Titre -->
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="contacts"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+    <include layout="@layout/toolbar_user"/>
 
     <!-- Contacts -->
     <LinearLayout
@@ -46,7 +38,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="amine" />
+                    android:text="Ahmed Amine" />
 
             </LinearLayout>
 
@@ -68,7 +60,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="fati" />
+                    android:text="Amine" />
 
             </LinearLayout>
 
@@ -90,7 +82,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="rawya" />
+                    android:text="Ahmed" />
 
             </LinearLayout>
 
@@ -121,7 +113,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="rokaya" />
+                    android:text="Rokaya" />
 
             </LinearLayout>
 
@@ -145,7 +137,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="adam" />
+                    android:text="Adam" />
 
             </LinearLayout>
 
@@ -168,97 +160,4 @@
         </LinearLayout>
 
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="360dp">
-
-        <!-- Contact 1 -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/circle_shape"
-                android:scaleType="centerCrop"
-                android:src="@drawable/home" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="home" />
-
-        </LinearLayout>
-
-        <!-- Contact 2 -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/circle_shape"
-                android:scaleType="centerCrop"
-                android:color='@color/colorPrimaryDark'
-                android:src="@drawable/community" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="contacts" />
-
-        </LinearLayout>
-
-        <!-- Contact 3 -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/circle_shape"
-                android:scaleType="centerCrop"
-                android:src="@drawable/place" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="place" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/circle_shape"
-                android:scaleType="centerCrop"
-                android:src="@drawable/profile" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="prorfile" />
-
-        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
