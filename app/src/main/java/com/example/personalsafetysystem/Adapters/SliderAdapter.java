@@ -81,12 +81,13 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.Onboarding
                 @Override
                 public void onClick(View v) {
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    String userId =  user.getUid();
+                    String userId = user.getUid();
                     DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
 
                     usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         private Intent userDashboardIntent;
                         private Intent contactDashboardIntent;
+
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
@@ -96,12 +97,14 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.Onboarding
 
                                 if (role != null) {
                                     Intent intent = role.equals("Principal user") ? userDashboardIntent : contactDashboardIntent;
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Add the flag here
                                     context.startActivity(intent);
                                 }
                             } else {
                                 // L'utilisateur n'existe pas dans la base de données
                             }
                         }
+
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
                             // Erreur lors de la récupération des données de l'utilisateur
@@ -109,12 +112,6 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.Onboarding
                     });
                 }
             });
-
-
-
-
-
-
         }
 
         void setImage(int image) {

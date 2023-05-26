@@ -1,147 +1,153 @@
 package com.example.personalsafetysystem.UserDashboard;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
-import com.example.personalsafetysystem.AboutFragment;
-import com.example.personalsafetysystem.HomeFragment;
-import com.example.personalsafetysystem.LoginActivity;
+import com.bumptech.glide.Glide;
+import com.example.personalsafetysystem.Model.User;
 import com.example.personalsafetysystem.R;
-import com.example.personalsafetysystem.SettingsFragment;
-import com.example.personalsafetysystem.ShareFragment;
-import com.google.android.material.navigation.NavigationView;
+import com.example.personalsafetysystem.StepCounterHelper;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
-public class UserProfile extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    Button add;
-    Spinner spinner;
-    LinearLayout btnProfile;
-    private DrawerLayout drawerLayout;
-    String[] country = {"+121", "+111", "+500"};
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class UserProfile extends AppCompatActivity {
+
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private StepCounterHelper stepCounterHelper;
+
+    Uri imageUri;
+    private CircleImageView img;
+    private Button btnEdit;
+    private EditText edtPassword,edtEmail,edtPhone;
+    private TextView textName,textEmail1,textPhone,nbrOfSteps;
+    private DatabaseReference userRef;
+    private User user;
 
 
-    @SuppressLint("MissingInflatedId")
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(FirebaseAuth.getInstance().getCurrentUser() == null) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        } else {
-            /*Intent intent = new Intent(getApplicationContext(), OnBoarding.class);
-            startActivity(intent);
-            finish();*/
-            setContentView(R.layout.activitymain2);
-            btnProfile = findViewById(R.id.profile);
-            spinner = findViewById(R.id.spinner);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(UserProfile.this, android.R.layout.simple_spinner_dropdown_item, country);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinner.setAdapter(adapter);
+        setContentView(R.layout.activity_user_profile);
+        btnEdit = findViewById(R.id.btnEdit);
+        edtPassword = findViewById(R.id.edtPassword);
+        edtEmail = findViewById(R.id.edtEmail);
+        edtPhone = findViewById(R.id.edtPhone);
+        nbrOfSteps = findViewById(R.id.NbrOfSteps);
 
-            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    String selectedItem = parent.getItemAtPosition(position).toString();
-                    Toast.makeText(UserProfile.this, selectedItem, Toast.LENGTH_SHORT).show();
+
+
+        userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        textName = findViewById(R.id.textName);
+        textPhone = findViewById(R.id.edtPhone);
+        textEmail1 = findViewById(R.id.textEmail);
+        img = findViewById(R.id.profile_image);
+
+
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                user = dataSnapshot.getValue(User.class);
+                if (user != null) {
+                    textName.setText(user.getName());
+                    textPhone.setText(user.getPhone());
+                    textEmail1.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                    Glide.with(img.getContext()).load(user.getImg_url()).placeholder(com.google.firebase.appcheck.interop.R.drawable.common_google_signin_btn_icon_dark).circleCrop().error(com.firebase.ui.database.R.drawable.common_google_signin_btn_icon_dark_normal).into(img);
+
                 }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(UserProfile.this, "Failed to retrieve user data.", Toast.LENGTH_SHORT).show();
+            }
+        });
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveUserData(view);
+            }
+        });
+
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                startActivityForResult(intent, PICK_IMAGE_REQUEST);
+            }
+        });
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
+            imageUri = data.getData();
+            CircleImageView imageView =findViewById(R.id.img1);
+            imageView.setImageURI(imageUri);
+        }
+    }
+
+    public void saveUserData(View view) {
+        String name = textName.getText().toString();
+        String phone = textPhone.getText().toString();
+        String textEmail = textEmail1.getText().toString();
+        if(imageUri!=null)
+        {
+            StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("images/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + System.currentTimeMillis() + ".jpg");
+            storageRef.putFile(imageUri);
+        }
+
+
+        if (user != null) {
+            user.setName(name);
+            user.setPhone(phone);
+            if(imageUri!=null)
+            {
+                user.setImg_url(imageUri.toString());
+
+            }
+
+
+            FirebaseAuth.getInstance().getCurrentUser().updateEmail(textEmail);
+            userRef.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                    // Do nothing
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(UserProfile.this, "Profile updated successfully.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(UserProfile.this, "Failed to save user data.", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
-
-            Toolbar toolbar = findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
-
-            drawerLayout = findViewById(R.id.drawer_layout);
-            NavigationView navigationView = findViewById(R.id.nav_view);
-            navigationView.setNavigationItemSelectedListener(this);
-
-            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
-            drawerLayout.addDrawerListener(toggle);
-            toggle.syncState();
-
-            if (savedInstanceState == null) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
-                navigationView.setCheckedItem(R.id.nav_home);
-            }
-
-
-        }
-        btnProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), UserDashboard.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-        btnProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), UserDashboard.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-        btnProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), UserDashboard.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.nav_home:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
-                break;
-            case R.id.nav_settings:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment()).commit();
-                break;
-            case R.id.nav_share:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ShareFragment()).commit();
-                break;
-            case R.id.nav_about:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutFragment()).commit();
-                break;
-            case R.id.nav_logout:
-                Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show();
-                break;
-        }
-        drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
         }
     }
+
+
+
+
+
+
 }

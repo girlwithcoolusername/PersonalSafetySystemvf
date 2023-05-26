@@ -1,202 +1,230 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-    <RelativeLayout
+    android:background="#f5f5f5"
+    tools:context=".UserDashboard.UserProfile">
+
+    <ImageView
+        android:id="@+id/wave_image"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:background="@color/purple_500"
-        android:padding="20dp">
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/img1" />
-        <TextView
-            android:id="@+id/fullname_field"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/profile_image"
-            android:fontFamily="@font/bungee_regular"
-            android:includeFontPadding="false"
-            android:text="Taimoor Sikander"
-            android:textColor="#000"
-            android:textSize="20sp" />
-        <TextView
-            android:id="@+id/username_field"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/fullname_field"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/profile_image"
-            android:includeFontPadding="false"
-            android:text="taimoor_sikander"
-            android:textSize="14sp" />
+        android:layout_height="320dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/wavy_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-
-
-    </RelativeLayout>
-    <LinearLayout
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/img1" />
+    <TextView
+        android:id="@+id/textName"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-100dp"
+        android:layout_marginTop="1dp"
+        android:text="Jack Willson"
+        android:textColor="#ffffff"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/profile_image"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="@+id/profile_image"
+        app:layout_constraintTop_toBottomOf="@+id/profile_image" />
+
+    <TextView
+        android:id="@+id/textEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="jackwillson@gmail.com"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/textName"
+        app:layout_constraintStart_toStartOf="@+id/textName"
+        app:layout_constraintTop_toBottomOf="@+id/textName" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_marginLeft="-25dp"
-        android:padding="20dp">
-        <com.google.android.material.card.MaterialCardView
-            android:layout_height="130dp"
-            android:layout_width="130dp"
-            android:layout_marginTop="-30dp"
-            android:layout_marginLeft="50dp"
-            app:cardBackgroundColor="@color/lavender"
-            app:cardElevation="50dp">
-            <RelativeLayout
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:padding="5dp"
-                android:layout_marginTop="2dp"
-                android:background="@color/lavender">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/white_background"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textEmail">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/top_button_background"
+                android:elevation="5dp"
+                android:orientation="vertical">
+
                 <ImageView
                     android:layout_centerHorizontal="true"
-                    android:layout_height="30dp"
-                    android:layout_width="30dp"
-                    android:layout_marginTop="50dp"
-                    android:src="@drawable/heart" />
-
-                <TextView
-                    android:id="@+id/battement"
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:layout_marginTop="80dp"
-                    android:gravity="center"
-
-                    android:fontFamily="@font/bungee_regular"
-                    android:includeFontPadding="false"
-                    android:text="123"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
-
-
-            </RelativeLayout>
-        </com.google.android.material.card.MaterialCardView>
-        <com.google.android.material.card.MaterialCardView
-            android:layout_height="130dp"
-
-            android:layout_width="130dp"
-            android:layout_marginTop="-30dp"
-            android:layout_marginLeft="50dp"
-            app:cardBackgroundColor="@color/lavender"
-            app:cardElevation="50dp">
-            <RelativeLayout
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:padding="5dp"
-                android:layout_marginTop="2dp"
-                android:background="@color/lavender">
-                <ImageView
-                    android:layout_centerHorizontal="true"
-                    android:layout_height="30dp"
-                    android:layout_width="30dp"
-                    android:layout_marginTop="50dp"
+                    android:layout_height="50dp"
+                    android:layout_width="50dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="50dp"
                     android:src="@drawable/step" />
 
                 <TextView
-                    android:id="@+id/step"
+                    android:id="@+id/NbrOfSteps"
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:layout_marginTop="80dp"
-                    android:gravity="center"
-
-                    android:fontFamily="@font/bungee_regular"
-                    android:includeFontPadding="false"
+                    android:layout_height="wrap_content"
                     android:text="Number of steps"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:layout_margin="10dp"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
 
-
-            </RelativeLayout>
-        </com.google.android.material.card.MaterialCardView>
-        <LinearLayout
-            android:layout_height="600dp"
-            android:layout_width="match_parent"
-            android:layout_gravity="center_vertical"
-            android:orientation="vertical"
-            android:layout_marginTop="160dp"
-            android:layout_marginLeft="-300dp"
-            android:layout_marginRight="40dp"
-            >
-            <com.google.android.material.textfield.TextInputLayout
-                android:hint="Email"
-                android:id="@+id/full_name_profile"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent">
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/top_button_background"
+                android:elevation="5dp"
+                android:orientation="vertical">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:drawableLeft="@drawable/ic_baseline_email_24"
-                    android:drawablePadding="10dp"
-                    android:layout_height="60dp"
-                    android:layout_width="match_parent" />
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_edit"
-                    android:layout_marginTop="-40dp"
-                    android:layout_marginLeft="230dp"
-                    />
+                    android:layout_centerHorizontal="true"
+                    android:layout_height="50dp"
+                    android:layout_width="50dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="50dp"
+                    android:src="@drawable/heart" />
 
-
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:hint="Password"
-                android:id="@+id/password"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:drawableLeft="@drawable/ic_password"
-                    android:drawablePadding="10dp"
+                <TextView
+                    android:id="@+id/Heartbeats"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_width="match_parent" />
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_edit"
-                    android:layout_marginTop="-40dp"
-                    android:layout_marginLeft="230dp"
-                    />
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:hint="Phone"
-                android:id="@+id/phone"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:drawableLeft="@drawable/ic_phone"
-                    android:drawablePadding="10dp"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent" />
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_edit"
-                    android:layout_marginTop="-40dp"
-                    android:layout_marginLeft="230dp"
-                    />
-            </com.google.android.material.textfield.TextInputLayout>
-            <Button
-
-                android:fontFamily="@font/bungee_regular"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/oval"
-                android:layout_width="match_parent"
-                android:text="UPDATE" />
-
+                    android:text="Heartbeats"
+                    android:layout_margin="10dp"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Password:"
+                android:textColor="@color/colorPurple"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/edtPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="*********"
+                android:textAlignment="viewEnd"
+                android:textColor="#5b5b5b"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Email:"
+                android:textColor="@color/colorPurple"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/edtEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="jackwillson@gmail.com"
+                android:textAlignment="viewEnd"
+                android:textColor="#5b5b5b"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Phone:"
+                android:textColor="@color/colorPurple"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/edtPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="06.41.49.85.24"
+                android:textAlignment="viewEnd"
+                android:textColor="#5b5b5b"
+                android:textSize="18sp" />
+        </LinearLayout>
+
     </LinearLayout>
-</LinearLayout>
+    <Button
+        android:id="@+id/btnEdit"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="-80dp"
+        android:backgroundTint="@color/colorPurple"
+        android:gravity="center"
+        android:text="Edit Profile"
+        app:cornerRadius = "20dp"
+        android:textColor="#ffffff"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
