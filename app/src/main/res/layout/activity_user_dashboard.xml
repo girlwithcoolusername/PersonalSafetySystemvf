@@ -56,13 +56,13 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/ic_logout" />
-
         <Button
             android:id="@+id/btn_start_route"
             android:layout_width="323dp"
-            android:layout_height="wrap_content"
+            android:layout_height="65dp"
             android:layout_below="@id/logout"
-            android:background="@drawable/button_shape"
+            android:backgroundTint="@color/colorPurple"
+            app:cornerRadius = "20dp"
             android:text="Start route"
             android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="@+id/map"
@@ -71,6 +71,7 @@
             app:layout_constraintTop_toTopOf="@+id/map"
             app:layout_constraintVertical_bias="0.894"
             tools:ignore="MissingConstraints" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
