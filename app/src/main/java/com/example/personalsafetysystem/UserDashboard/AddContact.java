@@ -21,6 +21,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -31,8 +35,7 @@ import java.util.Map;
 public class AddContact extends AppCompatActivity {
 
     EditText name, phone;
-    Button  btnAdd;
-
+    Button btnAdd;
 
     static final int PICK_IMAGE_REQUEST = 1;
     private Button btnSelectImage;
@@ -48,17 +51,14 @@ public class AddContact extends AppCompatActivity {
 
         btnAdd = findViewById(R.id.btnAdd);
 
-
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                insertData();
+                searchUserByPhone(phone.getText().toString());
             }
         });
 
-
-
-        btnSelectImage = (Button) findViewById(R.id.btnSelectImage);
+        btnSelectImage = findViewById(R.id.btnSelectImage);
         btnSelectImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,7 +80,28 @@ public class AddContact extends AppCompatActivity {
         }
     }
 
-    private void insertData() {
+    private void searchUserByPhone(String phoneNumber) {
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        Query query = usersRef.orderByChild("phone").equalTo(phoneNumber);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String userId = dataSnapshot.getChildren().iterator().next().getKey();
+                    addUserToContacts(userId);
+                } else {
+                    Toast.makeText(AddContact.this, "User not found.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(AddContact.this, "Error searching user.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void addUserToContacts(String userId) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             Toast.makeText(this, "User not authenticated", Toast.LENGTH_SHORT).show();
@@ -95,27 +116,29 @@ public class AddContact extends AppCompatActivity {
                         storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
-                                String userId = user.getUid();
-                                DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("contacts_list");
+                                String imageUrl = uri.toString();
+                                DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("contacts_list");
 
                                 Map<String, Object> map = new HashMap<>();
                                 map.put("name", name.getText().toString());
+                                map.put("role","Emergency contact");
                                 map.put("phone", phone.getText().toString());
-
-                                String imageUrl = uri.toString();
-                                // save the imageUrl in the database
                                 map.put("img_url", imageUrl);
+                                map.put("heartbeats", 75);
+                                map.put("nbrOfSteps",10000);
+
+
                                 userRef.push().setValue(map)
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void unused) {
-                                                Toast.makeText(AddContact.this,"Data inserted successfully.",Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(AddContact.this, "Data inserted successfully.", Toast.LENGTH_SHORT).show();
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(AddContact.this,"Error while inserting.",Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(AddContact.this, "Error while inserting.", Toast.LENGTH_SHORT).show();
                                             }
                                         });
                             }

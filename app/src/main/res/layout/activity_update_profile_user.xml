@@ -1,36 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
-
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/croix"
-        />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Update"
-        android:textSize="24sp"
-        android:textStyle="bold"/>
-    <ImageView
-        android:layout_width="200dp"
-        android:layout_height="150dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/layout_li"
+            android:padding="10dp">
+            <Button
+                android:id="@+id/btnBack"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_arrow_back"
+                android:layout_alignParentLeft="true"/>
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_marginTop="-5dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="View Contact"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"/>
+
+            <Button
+                android:background="@drawable/ic_logout"
+                android:id="@+id/btnLogout"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorPurple"
+            android:layout_below="@+id/layout_li"
+            android:paddingRight="0dp"
+            android:paddingLeft="8dp"/>
+
+
+    </RelativeLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageView"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="55dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/img1"
-        android:layout_gravity="clip_horizontal"/>
+        android:visibility="visible"/>
+
     <Button
-        android:id="@+id/btnChooseImage"
+        android:id="@+id/btnSelectImage"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="55dp"
         android:text="Choose Image"
+        android:backgroundTint="@color/colorPurple"
+        app:cornerRadius = "23dp"
         android:textAllCaps="false"
-android:layout_marginLeft="180dp"
+        android:layout_marginLeft="200dp"
         android:layout_marginTop="-85dp"
         android:textSize="18sp" />
     <TextView
@@ -48,7 +89,7 @@ android:layout_marginLeft="180dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:text="Lina"
+        android:text="Lina Alaoui"
 
         android:backgroundTint="#673AB7"
         android:textColorHint="@color/black"
@@ -68,7 +109,7 @@ android:layout_marginLeft="180dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:text="Lina"
+        android:text="linaalaoui@gmail.com"
 
         android:backgroundTint="#673AB7"
         android:textColorHint="@color/black"
@@ -79,7 +120,7 @@ android:layout_marginLeft="180dp"
         android:layout_marginLeft="20dp"
         android:textSize="20sp"
         android:layout_marginTop="10dp"
-        android:text="Password"
+        android:text="Phone number"
         android:textColor="@color/black"/>
 
     <EditText
@@ -88,59 +129,43 @@ android:layout_marginLeft="180dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:text="Lina"
+        android:text="06.41.78.25.32"
 
         android:backgroundTint="#673AB7"
         android:textColorHint="@color/black"
         android:gravity="left" />
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_below="@+id/servicetext"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="-20dp"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="160dp"
+            android:layout_height="55dp"
+            android:text="Edit"
+            app:cornerRadius = "20dp"
+            android:backgroundTint="@color/colorPurple"
+            android:textAllCaps="false"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="15dp"
+            android:id="@+id/btnEdit">
+        </Button>
+        <Button
+            android:layout_width="160dp"
+            android:layout_height="55dp"
+            android:text="Delete"
+            app:cornerRadius = "20dp"
+            android:textAllCaps="false"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="15dp"
+            android:backgroundTint="#6e0b14"
+            android:id="@+id/btnDelete">
 
-        android:text="Number"
-        android:layout_marginLeft="20dp"
-        android:textColor="#000"
-        android:textSize="20dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:id="@+id/txt"
-        />
-    <Spinner
-        android:layout_width="140dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/txt"
-        android:id="@+id/spinner"
-        android:background="@android:drawable/btn_dropdown"
-        android:layout_marginTop="20dp"
-        android:popupBackground="#765AAF"
-        android:spinnerMode="dialog"
-        android:layout_marginLeft="20dp"
-        android:layout_centerHorizontal="true"/>
-
-
-
-    <EditText
-        android:id="@+id/txtNum"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="170dp"
-        android:layout_marginRight="10dp"
-        android:backgroundTint="#673AB7"
-        android:gravity="left"
-        android:text="06154789"
-        android:layout_marginTop="-50dp"
-        android:textColorHint="@color/black" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="300dp"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/oval"
-        android:layout_gravity="center"
-
-        android:layout_height="wrap_content"
-        android:text="Keep"
-
-        />
+        </Button>
+    </LinearLayout>
 
 </LinearLayout>
