@@ -6,7 +6,7 @@ public class User {
 
     private String img_url;
     private int heartbeats;
-    private Map<String, String> contacts_list;
+    private Map<String, Object> contacts_list;
     private String name;
     private int nbrOfSteps;
     private String phone;
@@ -26,7 +26,7 @@ public class User {
     public User() {
     }
 
-    public User( String img_url, int heartbeats, Map<String, String> list_contacts, String name, int nbrOfSteps, String phone, String role, String password) {
+    public User( String img_url, int heartbeats, Map<String, Object> list_contacts, String name, int nbrOfSteps, String phone, String role, String password) {
         this.img_url = img_url;
         this.heartbeats = heartbeats;
         this.contacts_list = list_contacts;
@@ -50,11 +50,11 @@ public class User {
     }
 
 
-    public Map<String, String> getContacts_list() {
+    public Map<String, Object> getContacts_list() {
         return contacts_list;
     }
 
-    public void setContacts_list(Map<String, String> contacts_list) {
+    public void setContacts_list(Map<String, Object> contacts_list) {
         this.contacts_list = contacts_list;
     }
 

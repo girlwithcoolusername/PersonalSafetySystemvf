@@ -10,25 +10,31 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.personalsafetysystem.Adapters.ContactAdapter;
 import com.example.personalsafetysystem.Adapters.GridAdapter;
 import com.example.personalsafetysystem.LoginActivity;
 import com.example.personalsafetysystem.Model.User;
 import com.example.personalsafetysystem.R;
+import com.example.personalsafetysystem.UserDashboard.AddContact;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+
+// ...
 
 public class ContactsFragment extends Fragment {
     RecyclerView recyclerView;
-    GridAdapter gridAdapter;
+    GridAdapter contactAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.list_contact, container, false);
 
         recyclerView = view.findViewById(R.id.rv);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
@@ -37,13 +43,28 @@ public class ContactsFragment extends Fragment {
             getActivity().finish();
         } else {
             String uid = user.getUid();
-            FirebaseRecyclerOptions<User> options =
-                    new FirebaseRecyclerOptions.Builder<User>()
-                            .setQuery(FirebaseDatabase.getInstance().getReference().child("Users").child(uid).child("contacts_list"), User.class)
-                            .build();
-            gridAdapter = new GridAdapter(options);
-            recyclerView.setAdapter(gridAdapter);
+
+            Query query = FirebaseDatabase.getInstance()
+                    .getReference()
+                    .child("Users")
+                    .child(uid)
+                    .child("contacts_list");
+
+            FirebaseRecyclerOptions<User> options = new FirebaseRecyclerOptions.Builder<User>()
+                    .setQuery(query, User.class)
+                    .build();
+
+
+            contactAdapter = new GridAdapter(options);
+            recyclerView.setAdapter(contactAdapter);
         }
+        FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.floatingActionButton);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(requireContext(), AddContact.class));
+            }
+        });
 
         return view;
     }
@@ -51,16 +72,16 @@ public class ContactsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (gridAdapter != null) {
-            gridAdapter.startListening();
+        if (contactAdapter != null) {
+            contactAdapter.startListening();
         }
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if (gridAdapter != null) {
-            gridAdapter.stopListening();
+        if (contactAdapter != null) {
+            contactAdapter.stopListening();
         }
     }
 }

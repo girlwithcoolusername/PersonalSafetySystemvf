@@ -37,6 +37,7 @@
             android:layout_height="45dp"
             android:layout_below="@id/mapSearch"
             android:layout_marginTop="112dp"
+            android:layout_marginLeft="5dp"
             app:backgroundTint="@android:color/transparent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.95"
