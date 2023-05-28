@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.heartbeatinfo.HeartBeatInfo;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -39,9 +40,10 @@ public class UserProfile extends AppCompatActivity {
     private CircleImageView img;
     private Button btnEdit;
     private EditText edtPassword,edtEmail,edtPhone;
-    private TextView textName,textEmail1,textPhone,nbrOfSteps;
+    private TextView textName,textEmail1,textPhone,nbrOfSteps,HeartBeats;
     private DatabaseReference userRef;
     private User user;
+
 
 
     @Override
@@ -53,6 +55,7 @@ public class UserProfile extends AppCompatActivity {
         edtEmail = findViewById(R.id.edtEmail);
         edtPhone = findViewById(R.id.edtPhone);
         nbrOfSteps = findViewById(R.id.NbrOfSteps);
+        HeartBeats = findViewById(R.id.Heartbeats);
 
 
 
@@ -80,6 +83,18 @@ public class UserProfile extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(UserProfile.this, "Failed to retrieve user data.", Toast.LENGTH_SHORT).show();
+            }
+        });
+        FirebaseDatabase.getInstance().getReference("HEART").child("heartbeat").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String heartbeat = dataSnapshot.getValue(String.class); // Retrieve as String
+                HeartBeats.setText(String.valueOf(heartbeat)); // Convert to String for display
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(UserProfile.this, "Failed to retrieve heartbeat data.", Toast.LENGTH_SHORT).show();
             }
         });
         btnEdit.setOnClickListener(new View.OnClickListener() {
@@ -144,10 +159,6 @@ public class UserProfile extends AppCompatActivity {
             });
         }
     }
-
-
-
-
 
 
 }

@@ -18,7 +18,6 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.telephony.SmsManager;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,7 +30,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.personalsafetysystem.BottomMenuFragments.ContactsFragment;
-import com.example.personalsafetysystem.BottomMenuFragments.EmergencyFragment;
 import com.example.personalsafetysystem.BottomMenuFragments.ProfileFragment;
 import com.example.personalsafetysystem.HomeFragment;
 import com.example.personalsafetysystem.R;
