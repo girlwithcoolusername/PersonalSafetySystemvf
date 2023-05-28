@@ -40,7 +40,7 @@ public class ProfileFragment extends Fragment {
     private CircleImageView img;
     private Button btnEdit;
     private EditText edtPassword, edtEmail, edtPhone;
-    private TextView textName, textEmail1, textPhone;
+    private TextView textName, textEmail1, textPhone, heartBeatsTextView;
     private DatabaseReference userRef;
     private FirebaseUser currentUser;
     private User user;
@@ -62,6 +62,7 @@ public class ProfileFragment extends Fragment {
         edtEmail = view.findViewById(R.id.edtEmail);
         edtPhone = view.findViewById(R.id.edtPhone);
         stepCountTextView = view.findViewById(R.id.NbrOfSteps);
+         heartBeatsTextView = view.findViewById(R.id.Heartbeats);
         stepCounterHelper = new StepCounterHelper(requireContext(), stepCountTextView);
         stepCounterHelper.start();
 
@@ -107,6 +108,30 @@ public class ProfileFragment extends Fragment {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
                 startActivityForResult(intent, PICK_IMAGE_REQUEST);
+            }
+        });
+        getHeartbeats();
+
+    }
+    private void getHeartbeats() {
+        DatabaseReference heartRef = FirebaseDatabase.getInstance().getReference("HEART");
+        heartRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // Récupérer la valeur du battement cardiaque en tant que String
+                    String heartbeat = dataSnapshot.child("heartbeat").getValue(String.class);
+
+                    // Assurez-vous d'avoir correctement initialisé votre TextView HeartBeats
+
+                    // Afficher la valeur du battement cardiaque dans votre TextView
+                    heartBeatsTextView.setText(heartbeat);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Gérer les erreurs d'annulation ici
             }
         });
     }

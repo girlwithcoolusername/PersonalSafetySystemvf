@@ -11,7 +11,8 @@
     <uses-feature android:name="android.hardware.sensor.stepcounter" />
     <uses-feature android:name="android.hardware.sensor.stepdetector" />
     <uses-permission android:name="android.permission.SEND_SMS" />
-
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
 
     <application
@@ -51,8 +52,6 @@
         <activity
             android:name=".UserDashboard.TrackingActivity"
             android:exported="false" />
-        <activity android:name=".UserDashboard.UserProfile"
-            android:exported="false"/>
         <activity android:name=".UserDashboard.ListContact"
             android:exported="false"/>
         <activity android:name=".UserDashboard.AddContact"

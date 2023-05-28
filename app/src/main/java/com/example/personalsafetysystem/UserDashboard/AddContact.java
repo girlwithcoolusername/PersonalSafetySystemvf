@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.personalsafetysystem.BottomMenuFragments.ContactsFragment;
+import com.example.personalsafetysystem.LoginActivity;
 import com.example.personalsafetysystem.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -40,12 +42,15 @@ public class AddContact extends AppCompatActivity {
     static final int PICK_IMAGE_REQUEST = 1;
     private Button btnSelectImage;
     private Uri imageUri;
+    private Button btnBack,btnLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_contact);
 
+        btnBack = findViewById(R.id.btnBack);
+        btnLogout = findViewById(R.id.btnLogout);
         name = findViewById(R.id.txtName);
         phone = findViewById(R.id.txtPhone);
 
@@ -67,6 +72,23 @@ public class AddContact extends AppCompatActivity {
                 startActivityForResult(intent, PICK_IMAGE_REQUEST);
             }
         });
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), UserDashboard.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
 
     @Override

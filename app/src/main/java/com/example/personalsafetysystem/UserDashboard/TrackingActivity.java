@@ -1,4 +1,5 @@
 package com.example.personalsafetysystem.UserDashboard;
+
 import android.Manifest;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
@@ -12,6 +13,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,6 +37,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.List;
@@ -64,11 +71,10 @@ public class TrackingActivity extends AppCompatActivity implements OnMapReadyCal
         setContentView(R.layout.activity_user_dashboard);
         btnLogout = findViewById(R.id.logout);
         btn_start_route = findViewById(R.id.btn_start_route);
-        mapSearchView = findViewById(R.id.mapSearch);
-        iv_get_location = findViewById(R.id.iv_get_location);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         getLastlocation();
+        getCurrentLocation();
 
         //handle the log out button
         btnLogout.setOnClickListener(new View.OnClickListener() {
@@ -86,49 +92,27 @@ public class TrackingActivity extends AppCompatActivity implements OnMapReadyCal
         btn_start_route.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                ShowPopup();
-            }
-        });
-
-        //handle the get current location button
-        iv_get_location.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getLastlocation();
-            }
-        });
-
-        // initialize the map search view
-        mapSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                String location = mapSearchView.getQuery().toString();
-                List<Address> addressList = null ;
-
-                if (location != null){
-                    Geocoder geocoder = new Geocoder(TrackingActivity.this);
-                    try {
-                        addressList = geocoder.getFromLocationName(location,1);
-                    }catch (IOException e){
-                        e.printStackTrace();
-                    }
-
-                    Address address = addressList.get(0);
-                    LatLng latLng = new LatLng(address.getLatitude(),address.getLongitude());
-                    myMap.addMarker(new MarkerOptions().position(latLng).title(location));
-                    myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
+                try{
+                    Uri uri = Uri.parse("https://www.google.com/maps/dir/"+currentLocation.getLatitude()+","+currentLocation.getLongitude()+"/"+currentLocation.getLatitude()+","+currentLocation.getLongitude());
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    intent.setPackage("com.google.android.apps.maps");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }catch (ActivityNotFoundException exception ){
+                    Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.apps.maps&hl=en&gl=US");
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
 
                 }
 
-                return false;
-            }
 
-            @Override
-            public boolean onQueryTextChange(String s) {
-                return false;
             }
         });
+
+
+
+
 
     }
 
@@ -175,22 +159,62 @@ public class TrackingActivity extends AppCompatActivity implements OnMapReadyCal
 
     private void getLastlocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},FINE_PERMISSION_CODE);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, FINE_PERMISSION_CODE);
             return;
         }
 
-        Task<Location> task = fusedLocationProviderClient.getLastLocation();
-        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+        DatabaseReference gpsReference = FirebaseDatabase.getInstance().getReference("GPS");
+        gpsReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String latitudeString = dataSnapshot.child("LAT").getValue(String.class);
+                    String longitudeString = dataSnapshot.child("LNG").getValue(String.class);
+
+                    if (latitudeString != null && longitudeString != null) {
+                        double latitude = Double.parseDouble(latitudeString);
+                        double longitude = Double.parseDouble(longitudeString);
+                        currentLocation = new Location("FirebaseData");
+                        currentLocation.setLatitude(latitude);
+                        currentLocation.setLongitude(longitude);
+
+                        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+                        mapFragment.getMapAsync(TrackingActivity.this);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("FirebaseData", "Error retrieving data from Firebase: " + error.getMessage());
+            }
+        });
+    }
+
+    private void getCurrentLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, FINE_PERMISSION_CODE);
+            return;
+        }
+
+        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-                if (location != null){
-                    currentLocation = location ;
-                    SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-                    mapFragment.getMapAsync(TrackingActivity.this);
+                if (location != null) {
+                    double latitude = location.getLatitude();
+                    double longitude = location.getLongitude();
+
+                    currentLocation = location;
+
+                    // Use the latitude and longitude values
+                    // For example, update UI or perform further operations
                 }
             }
         });
     }
+
+
+
 
     //get current location
     @Override
