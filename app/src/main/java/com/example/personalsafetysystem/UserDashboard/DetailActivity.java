@@ -29,7 +29,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -95,39 +97,44 @@ public class DetailActivity extends AppCompatActivity {
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                         String uid = user.getUid();
 
-                        FirebaseDatabase.getInstance().getReference()
+                        DatabaseReference contactsRef = FirebaseDatabase.getInstance().getReference()
                                 .child("Users")
                                 .child(uid)
-                                .child("contacts_list")
-                                .orderByChild("phone")
-                                .equalTo(contactId)
-                                .get()
-                                .addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<DataSnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            for (DataSnapshot snapshot : task.getResult().getChildren()) {
-                                                snapshot.getRef().removeValue()
-                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                            @Override
-                                                            public void onSuccess(Void aVoid) {
-                                                                Toast.makeText(DetailActivity.this, "User deleted successfully.", Toast.LENGTH_SHORT).show();
-                                                                // Rediriger vers la liste des contacts ou fermer l'activité
-                                                                // en fonction de votre logique de navigation
-                                                            }
-                                                        })
-                                                        .addOnFailureListener(new OnFailureListener() {
-                                                            @Override
-                                                            public void onFailure(@NonNull Exception e) {
-                                                                Toast.makeText(DetailActivity.this, "Error deleting user.", Toast.LENGTH_SHORT).show();
-                                                            }
-                                                        });
-                                            }
-                                        } else {
-                                            Toast.makeText(DetailActivity.this, "Error deleting user.", Toast.LENGTH_SHORT).show();
-                                        }
+                                .child("contacts_list");
+
+                        Query query = contactsRef.orderByChild("phone").equalTo(contactId);
+
+                        query.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.exists()) {
+                                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                        snapshot.getRef().removeValue()
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        Toast.makeText(DetailActivity.this, "Contact deleted successfully.", Toast.LENGTH_SHORT).show();
+                                                        // Rediriger vers la liste des contacts ou fermer l'activité
+                                                        // en fonction de votre logique de navigation
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(DetailActivity.this, "Error deleting contact.", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
                                     }
-                                });
+                                } else {
+                                    Toast.makeText(DetailActivity.this, "Contact not found.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Toast.makeText(DetailActivity.this, "Error deleting contact.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 });
 
@@ -140,6 +147,5 @@ public class DetailActivity extends AppCompatActivity {
                 builder.show();
             }
         });
-
     }
 }
