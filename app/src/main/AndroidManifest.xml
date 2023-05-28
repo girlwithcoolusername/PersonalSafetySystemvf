@@ -52,8 +52,6 @@
         <activity
             android:name=".UserDashboard.TrackingActivity"
             android:exported="false" />
-        <activity android:name=".UserDashboard.UserProfile"
-            android:exported="false"/>
         <activity android:name=".UserDashboard.ListContact"
             android:exported="false"/>
         <activity android:name=".UserDashboard.AddContact"
