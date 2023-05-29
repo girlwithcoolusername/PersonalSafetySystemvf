@@ -43,9 +43,6 @@ public class Notifications extends AppCompatActivity {
         setContentView(R.layout.activity_notifications);
 
         smsListView = findViewById(R.id.sms_list_view);
-        mapSearchView = findViewById(R.id.searchBar);
-        btnBack = findViewById(R.id.btnBack);
-        btnLogout = findViewById(R.id.btnLogout);
 
         // Check for SMS read permission
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS)
@@ -57,7 +54,6 @@ public class Notifications extends AppCompatActivity {
         } else {
             // Permission already granted, load SMS messages
             loadSmsMessages(Telephony.Sms.DATE + " DESC");
-            setupSearchView();
         }
 
     }
@@ -122,19 +118,4 @@ public class Notifications extends AppCompatActivity {
         });
     }
 
-    private void setupSearchView() {
-        mapSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                loadSmsMessages(Telephony.Sms.DATE + " DESC");
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                loadSmsMessages(Telephony.Sms.DATE + " DESC");
-                return false;
-            }
-        });
-    }
 }

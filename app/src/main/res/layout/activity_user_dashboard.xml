@@ -35,7 +35,7 @@
             android:layout_below="@id/logout"
             android:backgroundTint="@color/colorPurple"
             app:cornerRadius = "20dp"
-            android:text="Get to Them"
+            android:text="TRACK ME "
             android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="@+id/map"
             app:layout_constraintEnd_toEndOf="parent"

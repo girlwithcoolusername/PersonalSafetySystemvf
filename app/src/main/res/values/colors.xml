@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="my_transparent_black">#61808080</color>
     <color name="purple_200">#522A79</color>
     <color name="purple_500">#522A79</color>
     <color name="purple_700">#522A79</color>
@@ -24,7 +25,7 @@
     <color name="yellowLight">#fff277</color>
     <color name="lightGrey">#c4c4c6</color>
     <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDark">#2f333f</color>
     <color name="colorAccent">#FF4081</color>
     <color name="background">#FFFF</color>
     <color name="backgroundcolor">#fcfcfc</color>

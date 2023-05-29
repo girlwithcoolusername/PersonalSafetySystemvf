@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#522A79"
-    tools:context=".DetailsHospitalFragment">
+    android:background="#7D7484"
+    tools:context=".UserDashboard.DetailsHospitalFragment">
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/progress_loader_animation"
@@ -24,22 +24,21 @@
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         android:id="@+id/appbar"
-        android:theme="@style/Theme.Version1">
+        android:theme="@style/Theme.Version1"
+        >
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/base_img"
             android:fitsSystemWindows="true"
-            app:contentScrim="@android:color/transparent"
-            app:expandedTitleTextColor="@color/white"
-            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-            app:collapsedTitleTextColor="#FBFBFB"
-            app:title="Name of Place"
-            app:expandedTitleTextAppearance="@style/Theme.Version1"
             app:collapsedTitleTextAppearance="@style/Theme.Version1"
-            android:background="@color/white"
-
-            android:id="@+id/collapsing_toolbar">
+            app:collapsedTitleTextColor="#FBFBFB"
+            app:contentScrim="@android:color/transparent"
+            app:expandedTitleTextAppearance="@style/Theme.Version1"
+            app:expandedTitleTextColor="@color/white"
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
 
 
             <ImageView
@@ -47,17 +46,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="300dp"
                 app:iss_auto_cycle="true"
-                app:iss_period="1000"
                 app:iss_delay="1000"
-                app:layout_collapseMode="parallax"
+                app:iss_period="1000"
                 app:iss_text_align="CENTER"
-                />
+                app:layout_collapseMode="parallax" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
-                app:layout_collapseMode="pin"/>
+                app:layout_collapseMode="pin" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -66,6 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/collbackshape"
+        android:backgroundTint="@color/my_transparent_black"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
 
@@ -74,7 +73,6 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
-
             android:layout_height="match_parent">
 
 
