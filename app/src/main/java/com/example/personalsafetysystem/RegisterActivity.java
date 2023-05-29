@@ -216,8 +216,6 @@ public class RegisterActivity extends AppCompatActivity {
         map.put("phone", txtPhone);
         map.put("img_url", profileImageUrl);
         map.put("contacts_list", new HashMap<String, Object>());
-        map.put("heartbeats",75);
-        map.put("nbrOfSteps",10000);
         usersRef.setValue(map)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

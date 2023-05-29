@@ -5,10 +5,8 @@ import java.util.Map;
 public class User {
 
     private String img_url;
-    private int heartbeats;
     private Map<String, Object> contacts_list;
     private String name;
-    private int nbrOfSteps;
     private String phone;
     private String role;
 
@@ -26,12 +24,10 @@ public class User {
     public User() {
     }
 
-    public User( String img_url, int heartbeats, Map<String, Object> list_contacts, String name, int nbrOfSteps, String phone, String role, String password) {
+    public User( String img_url,  Map<String, Object> list_contacts, String name, String phone, String role, String password) {
         this.img_url = img_url;
-        this.heartbeats = heartbeats;
         this.contacts_list = list_contacts;
         this.name = name;
-        this.nbrOfSteps = nbrOfSteps;
         this.phone = phone;
         this.role = role;
         this.password = password;
@@ -40,15 +36,6 @@ public class User {
 
 
     // Accesseurs et mutateurs
-
-    public int getHeartbeats() {
-        return heartbeats;
-    }
-
-    public void setHeartbeats(int heartbeats) {
-        this.heartbeats = heartbeats;
-    }
-
 
     public Map<String, Object> getContacts_list() {
         return contacts_list;
@@ -74,13 +61,6 @@ public class User {
         this.name = name;
     }
 
-    public int getNbrOfSteps() {
-        return nbrOfSteps;
-    }
-
-    public void setNbrOfSteps(int nbrOfSteps) {
-        this.nbrOfSteps = nbrOfSteps;
-    }
 
     public String getPhone() {
         return phone;

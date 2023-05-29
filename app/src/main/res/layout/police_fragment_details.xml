@@ -113,7 +113,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Km"
+                android:text="m"
                 android:textStyle="bold"
                 android:fontFamily="@font/display_medium"
                 app:layout_constraintTop_toBottomOf="@id/placename"

@@ -75,7 +75,7 @@ public class AddContact extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), UserDashboard.class);
+                Intent intent = new Intent(getApplicationContext(),ContactsFragment.class);
                 startActivity(intent);
                 finish();
             }
@@ -146,8 +146,6 @@ public class AddContact extends AppCompatActivity {
                                 map.put("role","Emergency contact");
                                 map.put("phone", phone.getText().toString());
                                 map.put("img_url", imageUrl);
-                                map.put("heartbeats", 75);
-                                map.put("nbrOfSteps",10000);
 
 
                                 userRef.push().setValue(map)
