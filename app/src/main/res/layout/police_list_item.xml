@@ -4,15 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    android:padding="10dp"
+
+    >
 
     <androidx.cardview.widget.CardView
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_margin="10dp"
-        app:cardBackgroundColor="@android:color/transparent"
+        app:cardBackgroundColor="@color/my_transparent_black"
         app:cardCornerRadius="30dp"
-        app:cardElevation="5dp">
+        app:cardElevation="5dp"
+        >
 
         <ImageView
             android:id="@+id/profile_img"
@@ -21,7 +25,8 @@
             android:contentDescription="blabla"
             android:scaleType="centerCrop"
             tools:ignore="ImageContrastCheck"
-            tools:src="@tools:sample/avatars" />
+            tools:src="@tools:sample/avatars"
+            android:background="#e8be31"/>
 
     </androidx.cardview.widget.CardView>
 
@@ -36,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Koregaon Park"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -50,13 +55,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="4.0"
-                android:textColor="@color/white" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="From here"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:layout_marginStart="5dp" />
 
         </LinearLayout>
@@ -66,7 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10Km from here"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="16sp" />
 
 

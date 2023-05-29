@@ -1,7 +1,10 @@
 package com.example.personalsafetysystem.BottomMenuFragments;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,22 +35,28 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.ViewHolder;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileFragment extends Fragment {
+    Dialog myDialog;
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri imageUri;
-    private CircleImageView img;
+    private CircleImageView img, imgPopup;
     private Button btnEdit;
+    private LinearLayout btnHeartbeatsPopup;
     private EditText edtPassword, edtEmail, edtPhone;
-    private TextView textName, textEmail1, textPhone, heartBeatsTextView;
+    private TextView textName, textNamePopup, textEmailPopup, textEmail1, textPhone, heartBeatsTextView;
     private DatabaseReference userRef;
     private FirebaseUser currentUser;
     private User user;
     private StepCounterHelper stepCounterHelper;
     private TextView stepCountTextView;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,7 +72,7 @@ public class ProfileFragment extends Fragment {
         edtEmail = view.findViewById(R.id.edtEmail);
         edtPhone = view.findViewById(R.id.edtPhone);
         stepCountTextView = view.findViewById(R.id.NbrOfSteps);
-         heartBeatsTextView = view.findViewById(R.id.Heartbeats);
+        heartBeatsTextView = view.findViewById(R.id.Heartbeats);
         stepCounterHelper = new StepCounterHelper(requireContext(), stepCountTextView);
         stepCounterHelper.start();
 
@@ -75,6 +85,10 @@ public class ProfileFragment extends Fragment {
         textPhone = view.findViewById(R.id.edtPhone);
         textEmail1 = view.findViewById(R.id.textEmail);
         img = view.findViewById(R.id.profile_image);
+        btnHeartbeatsPopup = view.findViewById(R.id.btnHeartbeatsPopup);
+        textNamePopup = view.findViewById(R.id.textNamePopup);
+        textEmailPopup = view.findViewById(R.id.textEmailPopup);
+        imgPopup = view.findViewById(R.id.imgPopup);
 
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -110,28 +124,52 @@ public class ProfileFragment extends Fragment {
                 startActivityForResult(intent, PICK_IMAGE_REQUEST);
             }
         });
+
         getHeartbeats();
 
+        btnHeartbeatsPopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final DialogPlus dialogPlus = DialogPlus.newDialog(img.getContext())
+                        .setContentHolder(new ViewHolder(R.layout.heartbeats_popup))
+                        .setExpanded(true, 1200)
+                        .setContentBackgroundResource(android.R.color.transparent)
+                        .create();
+
+                View dialogView = dialogPlus.getHolderView();
+                TextView txtclose = dialogView.findViewById(R.id.txtclose);
+                TextView name = dialogView.findViewById(R.id.textNamePopup);
+                TextView email = dialogView.findViewById(R.id.textEmailPopup);
+                CircleImageView imgPopup = dialogView.findViewById(R.id.imgPopup);
+                name.setText(user.getName());
+                email.setText(currentUser.getEmail());
+                Glide.with(requireContext()).load(user.getImg_url()).placeholder(R.drawable.common_google_signin_btn_icon_dark).circleCrop().error(R.drawable.common_google_signin_btn_icon_dark_normal).into(imgPopup);
+                txtclose.setText("X");
+                txtclose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogPlus.dismiss();
+                    }
+                });
+                dialogPlus.show();
+            }
+        });
     }
+
     private void getHeartbeats() {
         DatabaseReference heartRef = FirebaseDatabase.getInstance().getReference("HEART");
         heartRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    // Récupérer la valeur du battement cardiaque en tant que String
                     String heartbeat = dataSnapshot.child("heartbeat").getValue(String.class);
-
-                    // Assurez-vous d'avoir correctement initialisé votre TextView HeartBeats
-
-                    // Afficher la valeur du battement cardiaque dans votre TextView
                     heartBeatsTextView.setText(heartbeat);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Gérer les erreurs d'annulation ici
+                // Handle cancellation errors here
             }
         });
     }
@@ -150,7 +188,6 @@ public class ProfileFragment extends Fragment {
         String name = textName.getText().toString();
         String phone = textPhone.getText().toString();
         String textEmail = edtEmail.getText().toString();
-        String textPassword = edtPassword.getText().toString();
 
         if (currentUser != null) {
             if (imageUri != null) {
@@ -165,27 +202,17 @@ public class ProfileFragment extends Fragment {
                 if (imageUri != null) {
                     user.setImg_url(imageUri.toString());
                 }
-
                 currentUser.updateEmail(textEmail).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            currentUser.updatePassword(textPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            userRef.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        userRef.setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    Toast.makeText(requireContext(), "Profile updated successfully.", Toast.LENGTH_SHORT).show();
-                                                } else {
-                                                    Toast.makeText(requireContext(), "Failed to save user data.", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        });
+                                        Toast.makeText(requireContext(), "Profile updated successfully.", Toast.LENGTH_SHORT).show();
                                     } else {
-                                        Toast.makeText(requireContext(), "Failed to update password.", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(requireContext(), "Failed to save user data.", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
@@ -197,6 +224,7 @@ public class ProfileFragment extends Fragment {
             }
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -208,5 +236,4 @@ public class ProfileFragment extends Fragment {
         super.onPause();
         stepCounterHelper.stop();
     }
-
 }

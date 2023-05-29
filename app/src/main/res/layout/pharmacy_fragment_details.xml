@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#522A79"
-    tools:context=".DetailsDoctorFragment">
+    android:background="#7D7484"
+    tools:context=".UserDashboard.DetailsPharmacyFragment">
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/progress_loader_animation"
@@ -28,7 +28,7 @@
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="200dp"
             android:fitsSystemWindows="true"
             app:contentScrim="@android:color/transparent"
             app:expandedTitleTextColor="@color/white"
@@ -37,7 +37,7 @@
             app:title="Name of Place"
             app:expandedTitleTextAppearance="@style/Theme.Version1"
             app:collapsedTitleTextAppearance="@style/Theme.Version1"
-            android:background="@color/white"
+            android:background="@drawable/pharmacy"
 
             android:id="@+id/collapsing_toolbar">
 
